@@ -1,5 +1,21 @@
 #!/usr/bin/perl
+use Cwd 'abs_path';
+use File::Basename;
+use lib dirname( abs_path $0 );
+# -- Auth --
+use auth;
+my $auth = new auth();
+ 
+#set object attributes
+$auth->construct("./authfile.txt");
+if !($auth->checkUser($q->param('user'),$q->param('pass'))) {
+	die
+}
+
+# -- Auth End --
+
 use CGI;
+use CGI::Carp qw(warningsToBrowser fatalsToBrowser); 
 $q = CGI->new;
 print $q->header;
 print $q->start_html('Dev Perl Log Search');
@@ -11,13 +27,12 @@ print $q->p($regex);
 @files = <*>;
 foreach $filename (@files) {
 	open FILE, "gunzip -c $filename|" or die $!;
-	    print $q->ul();
 	while (my $line = <FILE>) {
 			if ($line =~ m/$regex/is) {
-					print $q->li($line);
+					print $q->p($line);
 			}
 	}
-		
+	
 	close FILE;
 }
 
