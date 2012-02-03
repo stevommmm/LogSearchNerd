@@ -24,14 +24,13 @@ if (!$auth->checkUser($username,$password)) {
 print $q->p($regex);
 @files = <*.gz>;
 foreach $filename (@files) {
-        open FILE, "gunzip -c $filename|" or die $!;
-        while (my $line = <FILE>) {
-                        if ($line =~ m/$regex/is) {
-                                        print $q->p($line);
-                        }
-        }
-
-        close FILE;
+	open FILE, "gunzip -c $filename|" or die $!;
+	while (my $line = <FILE>) {
+		if ($line =~ m/$regex/is) {
+			print $q->p($line);
+		}
+	}
+	close FILE;
 }
 
 print $q->end_html;

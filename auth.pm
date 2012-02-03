@@ -8,7 +8,7 @@ my $self = undef;
 sub new {
     my ($class) = @_;
     my $self = {
-        _AuthFile => undef,
+		_AuthFile => undef,
 		_Salt => undef,
     };
     bless $self, $class;
@@ -24,10 +24,10 @@ sub construct {
 
 sub checkUser {
     my ( $self , $username, $password ) = @_;
-        if ($self->isInFile($username,$password)){
-                return TRUE;
-        }
-        return FALSE;
+		if ($self->isInFile($username,$password)){
+			return TRUE;
+		}
+		return FALSE;
 }
 
 sub isInFile {
@@ -35,23 +35,23 @@ sub isInFile {
         ### Do NOT send this live ###
         my ( $self , $username, $password ) = @_;
         open PWFILE, $self->{_AuthFile} or die $!;
-		my $cryptuser = crypt("#_:$username:$password",$self->{_Salt});
+		my $cryptuser = crypt("$username:$password",$self->{_Salt});
         while (my $line = <PWFILE>) {
 			chomp($line);
-				if ($line =~ /^#_:/) {
-                                        if ($cryptuser eq $line) {
-											return TRUE;
-                                        }
-                                }
+			if ($line =~ /^#_:/) {
+				if ("#_:$cryptuser" eq $line) {
+					return TRUE;
+				}
+			}
         }
         return FALSE;
 }
 
 sub addNewUser {
-	my ( $self , $username, $password ) = @_;
+        my ( $self , $username, $password ) = @_;
         open PWFILE, '>>', $self->{_AuthFile} or die $!;
-		my $cryptuser = crypt("#_:$username:$password",$self->{_Salt});
-        print PWFILE "$cryptuser\n";
+		my $cryptuser = crypt("$username:$password",$self->{_Salt});
+        print PWFILE "#_:$cryptuser\n";
 }
 
 1;
