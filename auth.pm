@@ -1,6 +1,8 @@
 #class auth
 package auth;
 use strict;
+use constant TRUE => 1;
+use constant FALSE => 0;
 my $self = undef;
 
 sub new {
@@ -22,7 +24,22 @@ sub construct {
 
 sub checkUser {
     my ( $self , $username, $password ) = @_;
-    return 0;
+        if ($self->isInFile($username,$password)){
+                return TRUE;
+        }
+        return FALSE;
+}
+
+sub isInFile {
+        my ( $self , $username, $password ) = @_;
+        open PWFILE, $self->{_AuthFile} or die $!;
+        while (my $line = <PWFILE>) {
+                chomp($line);
+                if ("$username$password" eq "$line") {
+                        return TRUE;
+                }
+        }
+        return FALSE;
 }
 
 1;

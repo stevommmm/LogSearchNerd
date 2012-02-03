@@ -9,29 +9,29 @@ $auth->construct("./authfile.txt");
 # -- Auth End --
 
 use CGI;
-use CGI::Carp qw(warningsToBrowser fatalsToBrowser); 
+use CGI::Carp qw(warningsToBrowser fatalsToBrowser);
 $q = CGI->new;
 print $q->header;
 print $q->start_html('Dev Perl Log Search');
 print $q->h1('Perl&lt;3');
 my $regex = $q->param('reg');
 # -- Check if user is authenticated --
-if (!$auth->checkUser($q->param('user'),$q->param('pass'))) {
-	print $q->p("User not Authenticated.");
-	die;
+my $username = $q->param('user');
+my $password = $q->param('pass');
+if (!$auth->checkUser($username,$password)) {
+        die "User not Authenticated.";
 }
 print $q->p($regex);
-#my $filename = './server-2011-09-11-22:46:14.log.gz';
 @files = <*.gz>;
 foreach $filename (@files) {
-	open FILE, "gunzip -c $filename|" or die $!;
-	while (my $line = <FILE>) {
-			if ($line =~ m/$regex/is) {
-					print $q->p($line);
-			}
-	}
-	
-	close FILE;
+        open FILE, "gunzip -c $filename|" or die $!;
+        while (my $line = <FILE>) {
+                        if ($line =~ m/$regex/is) {
+                                        print $q->p($line);
+                        }
+        }
+
+        close FILE;
 }
 
 print $q->end_html;
