@@ -20,8 +20,6 @@ sub construct {
     return;
 }
 
-## Ban related methods ##
-
 sub checkUser {
     my ( $self , $username, $password ) = @_;
         if ($self->isInFile($username,$password)){
@@ -31,13 +29,17 @@ sub checkUser {
 }
 
 sub isInFile {
+		# No encryption implemented, coming soon-ish.
+		### Do NOT send this live ###
         my ( $self , $username, $password ) = @_;
         open PWFILE, $self->{_AuthFile} or die $!;
         while (my $line = <PWFILE>) {
                 chomp($line);
-                if ("$username$password" eq "$line") {
-                        return TRUE;
-                }
+				if ($line =~ /^#_:/) {
+					if ("#_:$username:$password" eq "$line") {
+							return TRUE;
+					}
+				}
         }
         return FALSE;
 }
