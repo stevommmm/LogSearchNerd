@@ -47,4 +47,11 @@ sub isInFile {
         return FALSE;
 }
 
+sub addNewUser {
+	my ( $self , $username, $password ) = @_;
+        open PWFILE, '>>', $self->{_AuthFile} or die $!;
+		my $cryptuser = crypt("#_:$username:$password",$self->{_Salt});
+        print PWFILE "$cryptuser\n";
+}
+
 1;
