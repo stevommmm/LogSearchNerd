@@ -22,7 +22,7 @@ sub construct {
 
 sub checkUser {
     my ( $self , $username, $password ) = @_;
-    return true;
+    return 0;
 }
 
 1;

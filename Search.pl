@@ -5,18 +5,16 @@ use lib dirname( abs_path $0 );
 # -- Auth --
 use auth;
 my $auth = new auth();
- 
-#set object attributes
 $auth->construct("./authfile.txt");
-if !($auth->checkUser($q->param('user'),$q->param('pass'))) {
-	die
-}
-
 # -- Auth End --
 
 use CGI;
 use CGI::Carp qw(warningsToBrowser fatalsToBrowser); 
 $q = CGI->new;
+# -- Check if user is authenticated --
+if (!$auth->checkUser($q->param('user'),$q->param('pass'))) {
+	die
+}
 print $q->header;
 print $q->start_html('Dev Perl Log Search');
 print $q->h1('Perl&lt;3');
