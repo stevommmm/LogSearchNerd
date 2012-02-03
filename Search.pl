@@ -5,11 +5,11 @@ use lib dirname( abs_path $0 );
 # -- Auth --
 use auth;
 my $auth = new auth();
-$auth->construct("./authfile.pl");
+$auth->construct("./authfile.pl","MyrandomSalt:adjvbevbf8rg3983r");
 # -- Auth End --
 
 use CGI;
-use CGI::Carp qw(warningsToBrowser fatalsToBrowser);
+use CGI::Carp qw(warningsToBrowser fatalsToBrowser); # Remove when testing is done!
 $q = CGI->new;
 print $q->header;
 print $q->start_html('Dev Perl Log Search');
