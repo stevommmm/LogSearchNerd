@@ -1,0 +1,1 @@
+A simple log search back end.Takes regex as input
