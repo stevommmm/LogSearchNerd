@@ -18,6 +18,7 @@ print $q->h1('Perl&lt;3');
 die "Param error." unless defined $q->param('user');
 die "Param error." unless defined $q->param('pass');
 die "Param error." unless defined $q->param('reg');
+die "Param error." unless defined $q->param('day');
 # -- End param check.
 
 my $regex = $q->param('reg');
@@ -33,17 +34,19 @@ my @servers = ();
 push(@servers, "creative") if defined $q->param('C');
 push(@servers, "survival") if defined $q->param('S');
 push(@servers, "pve") if defined $q->param('P');
+my $day_limit = $q->param('day');
+die if $day_limit > 10;
 
 foreach $server (@servers) {
-	print "<a href=\"#$server\">$server</a>";
+	print "<a href=\"#$server\">$server</a><br>";
 }
 
 foreach $server (@servers) {
-	print $q->h1("$server\n");a
+	print $q->h1("$server\n");
 	print "<a name=\"$server\"></a>";
 	@files = </home/reddit/logs/$server/*.gz>;
 	foreach $filename (@files) {
-		if (-M $filename < 2) {
+		if (-M $filename < $day_limit) {
 			open FILE, "gunzip -c $filename|" or die $!;
 			while (my $line = <FILE>) {
 				if ($line =~ m/$regex/is) {
