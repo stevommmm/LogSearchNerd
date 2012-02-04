@@ -30,16 +30,20 @@ if (!$auth->checkUser($username,$password)) {
 print $q->p($regex); #debug, remove.
 
 my @servers = ();
-push(@servers, "Creative") if defined $q->param('C');
-push(@servers, "Survival") if defined $q->param('S');
-push(@servers, "Pve") if defined $q->param('P');
+push(@servers, "creative") if defined $q->param('C');
+push(@servers, "survival") if defined $q->param('S');
+push(@servers, "pve") if defined $q->param('P');
 
 foreach $server (@servers) {
-	print "/home/reddit/logs/$server/*\n";
+	print "<a href=\"#$server\">$server</a>";
+}
+
+foreach $server (@servers) {
+	print $q->h1("$server\n");a
+	print "<a name=\"$server\"></a>";
 	@files = </home/reddit/logs/$server/*.gz>;
-	my $counter = 0;
 	foreach $filename (@files) {
-		if ($counter < 20 ) {
+		if (-M $filename < 2) {
 			open FILE, "gunzip -c $filename|" or die $!;
 			while (my $line = <FILE>) {
 				if ($line =~ m/$regex/is) {
