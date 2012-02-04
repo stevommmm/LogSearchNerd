@@ -50,6 +50,7 @@ foreach $server (@servers) {
 			open FILE, "gunzip -c $filename|" or die $!;
 			while (my $line = <FILE>) {
 				if ($line =~ m/$regex/is) {
+					$line =~ s/§[a-f0-9]//g;
 					print $q->p($line);
 				}
 			}
