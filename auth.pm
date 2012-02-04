@@ -1,4 +1,4 @@
-#class auth
+#!/usr/bin/perl
 package auth;
 use strict;
 use constant TRUE => 1;
