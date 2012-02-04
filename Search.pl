@@ -8,7 +8,7 @@ my $auth = new auth();
 $auth->construct("./authfile.pl","MyrandomSalt:adjvbevbf8rg3983r");
 # -- Auth End --
 use CGI;
-use CGI::Carp qw(warningsToBrowser fatalsToBrowser); # Remove when testing is done!
+use HTML::Entities;
 $q = CGI->new;
 print $q->header;
 print $q->start_html('Dev Perl Log Search');
@@ -51,6 +51,7 @@ foreach $server (@servers) {
 			while (my $line = <FILE>) {
 				if ($line =~ m/$regex/is) {
 					$line =~ s/§[a-f0-9]//g;
+					$line = encode_entities($line, "\x80-\xff");
 					print $q->p($line);
 				}
 			}
