@@ -5,5 +5,4 @@
 # Make sure it is executable and will die if
 # tried to run directly.
 die;
-#_:test:test
-#_:admin:password
+#_:Myto5Y1tzduao
