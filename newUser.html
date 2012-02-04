@@ -85,9 +85,9 @@
     </head>
     <body>
         <div class="container1">
-            <div id="stylized" class="myform">
-                <form id="form" name="form" method="post" action="Search.pl">
-                    <h1>nerd.nu Log Search</h1>
+			<div id="stylized" class="myform">
+                <form id="form" name="form" method="post" action="newUser.pl">
+                    <h1>Add New User</h1>
 					<div class="group">
 						<p>Your authentication details.</p>
 						<label>Username</label>
@@ -96,39 +96,18 @@
 						<input type="password" name="pass" id="pass" />
 						<div class="spacer"></div>
 					</div>
-					<div class="group">
-						<p>Your search query.</p>
-						<label>Regex</label>
-						<input type="text" name="reg" id="reg" />
-						<div class="spacer"></div>
-					</div>
-					<div class="group">
-						<p>Pick the servers to search.</p>
-						<label>Creative</label>
-						<input type="checkbox" name="C" value="Creative" />
-						<label>Survival</label>
-						<input type="checkbox" name="S" value="Survival" />
-						<label>PvE</label>
-						<input type="checkbox" name="P" value="PvE" />
+										<div class="group">
+						<p>Your New User's authentication details.</p>
+						<label>New Username</label>
+						<input type="text" name="newuser" id="newuser" />
+						<label>New Password</label>
+						<input type="password" name="newpass" id="newpass" />
 						<div class="spacer"></div>
 					</div>
                     <button type="submit">Submit</button>
                     <div class="spacer"></div>
                 </form>
             </div>
-			<div id="stylized" class="myform">
-				<h1>Handy Regex Examples.</h1>
-				<div class="group">
-					<ul>
-						<li>(/done)(\s)([0-9]+)
-							<p class="small">Show all /done commands</p>
-						</li>
-						<li>(/i\s)([0-9]+)(\s)([0-9]{4,})
-							<p class="small">Show all players requesting 1000+ items<p>
-						</li>
-					</ul>
-				</div>
-			</div>
         </div>
     </body>
 </html>
