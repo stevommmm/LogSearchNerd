@@ -51,8 +51,8 @@ foreach $server (@servers) {
 				if ($line =~ m/$regex/is) {
 					$line =~ s/§[a-f0-9]//g;
 					$line =~ s/\[[a-z0-9]+m//g;
-					$line =~ s/</&lt;/g
-					$line =~ s/>/&gt;/g
+					$line =~ s/</&lt;/g;
+					$line =~ s/>/&gt;/g;
 					print $q->p($line);
 				}
 			}
