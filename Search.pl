@@ -37,14 +37,17 @@ push(@servers, "Pve") if defined $q->param('P');
 foreach $server (@servers) {
 	print "/home/reddit/logs/$server/*\n";
 	@files = </home/reddit/logs/$server/*.gz>;
+	my $counter = 0;
 	foreach $filename (@files) {
-		open FILE, "gunzip -c $filename|" or die $!;
-		while (my $line = <FILE>) {
-			if ($line =~ m/$regex/is) {
-				print $q->p($line);
+		if ($counter < 20 ) {
+			open FILE, "gunzip -c $filename|" or die $!;
+			while (my $line = <FILE>) {
+				if ($line =~ m/$regex/is) {
+					print $q->p($line);
+				}
 			}
+			close FILE;
 		}
-		close FILE;
 	}
 }
 
