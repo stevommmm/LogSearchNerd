@@ -22,6 +22,17 @@ if (!$auth->checkUser($username,$password)) {
         die "User not Authenticated.";
 }
 print $q->p($regex);
+
+my @servers = ();
+push(@servers, "Creative") if defined $q->param('C');
+push(@servers, "Survival") if defined $q->param('S');
+push(@servers, "Pve") if defined $q->param('P');
+
+foreach $server (@servers) {
+	print "/home/reddit/logs/$server/*\n";
+}
+
+
 @files = <*.gz>;
 foreach $filename (@files) {
 	open FILE, "gunzip -c $filename|" or die $!;

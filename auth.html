@@ -10,9 +10,10 @@
             .spacer{clear:both; height:1px;}
 
             .myform{
-                margin:0 auto;
                 width:400px;
                 padding:14px;
+				float:left;
+				margin:14px;
             }
 
             #stylized{
@@ -27,9 +28,10 @@
             #stylized p{
                 font-size:11px;
                 color:#666666;
-                margin-bottom:20px;
-                border-bottom:solid 1px #b7ddf2;
+                margin-bottom:5px;
                 padding-bottom:10px;
+				padding-left:5px;
+				letter-spacing:normal;
             }
             #stylized label{
                 display:block;
@@ -40,11 +42,9 @@
             }
             #stylized .small{
                 color:#666666;
-                display:block;
                 font-size:11px;
                 font-weight:normal;
-                text-align:right;
-                width:140px;
+				padding:5px;
             }
             #stylized input{
                 float:left;
@@ -66,30 +66,69 @@
                 font-size:11px;
                 font-weight:bold;
             }
+			#stylized .group{
+				width:100%;
+				clear:both;
+				position:relative;
+				border:solid 1px #b7ddf2;
+				padding-bottom:10px;
+				margin-bottom:10px;
+			}
+			#stylized ul{
+				list-style-type: square;
+			}
+			#stylized li{
+				letter-spacing:2px;
+				font-family:Lucida Console;
+			}
         </style>
     </head>
     <body>
         <div class="container1">
             <div id="stylized" class="myform">
                 <form id="form" name="form" method="post" action="Search.pl">
-                    <h1>Sign in</h1>
-                    <p>A demonstration sign in form.</p>
-                    <label>Username
-                        <span class="small">Your user account name</span>
-                    </label>
-                    <input type="text" name="user" id="user" />
-                    <label>Password
-                        <span class="small">Your account password</span>
-                    </label>
-                    <input type="password" name="pass" id="pass" />
-                        <label>Regex
-                        <span class="small">Lots of symbols, just try it</span>
-                    </label>
-                    <input type="text" name="reg" id="reg" />
-                    <button type="submit">Sign in</button>
+                    <h1>nerd.nu Log Search</h1>
+					<div class="group">
+						<p>Your authentication details.</p>
+						<label>Username</label>
+						<input type="text" name="user" id="user" />
+						<label>Password</label>
+						<input type="password" name="pass" id="pass" />
+						<div class="spacer"></div>
+					</div>
+					<div class="group">
+						<p>Your search query.</p>
+						<label>Regex</label>
+						<input type="text" name="reg" id="reg" />
+						<div class="spacer"></div>
+					</div>
+					<div class="group">
+						<p>Pick the servers to search.</p>
+						<label>Creative</label>
+						<input type="checkbox" name="C" value="Creative" />
+						<label>Survival</label>
+						<input type="checkbox" name="S" value="Survival" />
+						<label>PvE</label>
+						<input type="checkbox" name="P" value="PvE" />
+						<div class="spacer"></div>
+					</div>
+                    <button type="submit">Submit</button>
                     <div class="spacer"></div>
                 </form>
             </div>
+			<div id="stylized" class="myform">
+			<h1>Handy Regex Examples.</h1>
+				<div class="group">
+					<ul>
+						<li>(/done)(\s)([0-9]+)
+							<p class="small">Show all /done commands</p>
+						</li>
+						<li>(/i\s)([0-9]+)(\s)([0-9]{4,})
+							<p class="small">Show all players requesting 1000+ items<p>
+						</li>
+					</ul>
+				</div>
+			</div>
         </div>
     </body>
 </html>
