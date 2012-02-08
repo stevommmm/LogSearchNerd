@@ -98,8 +98,10 @@
 					</div>
 					<div class="group">
 						<p>Your search query.</p>
-						<label>Regex</label>
+						<label>Search</label>
 						<input type="text" name="reg" id="reg" />
+						<label>Regex</label>
+						<input type="checkbox" name="esc" value="esc" />
 						<label>Days</label>
 						<select name="day">
 							<option name="1" value="1">1</option>
@@ -146,6 +148,13 @@
 						<li>(/ban)(.*)x(.*)ray(.{0,1})nerd.nu/appeal$
 							<p class="small">Grep for all users banned for xraying.</p>
 						</li>
+						<li>((USERNAME):(\/r|\/msg|\/modreq|\/mail)|\<(USERNAME)\>)
+							<p class="small">Find all the things! (for a user)</p>
+						</li>
+						<li>(((.+):(\/modreq)(.*log))|(shortly after pvp))
+							<p class="small">Match modreqests withe players logging in combat.</p>
+						</li>
+						
 					</ul>
 				</div>
 			</div>

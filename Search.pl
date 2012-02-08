@@ -21,6 +21,7 @@ die "Param error." unless defined $q->param('day');
 # -- End param check.
 
 my $regex = $q->param('reg');
+my $escape = 'true' if unless $q->param('esc');
 # -- Check if user is authenticated --
 my $username = $q->param('user');
 my $password = $q->param('pass');
@@ -48,12 +49,22 @@ foreach $server (@servers) {
 		if (-M $filename < $day_limit) {
 			open FILE, "gunzip -c $filename|" or die $!;
 			while (my $line = <FILE>) {
-				if ($line =~ m/$regex/is) {
-					$line =~ s/§[a-f0-9]//g;
-					$line =~ s/\[[a-z0-9]+m//g;
-					$line =~ s/</&lt;/g;
-					$line =~ s/>/&gt;/g;
-					print $q->p($line);
+				if ($escape eq 'true') {
+					if ($line =~ m/\Q$regex\E/) {
+						$line =~ s/§[a-f0-9]//g;
+						$line =~ s/\[[a-z0-9]+m//g;
+						$line =~ s/</&lt;/g;
+						$line =~ s/>/&gt;/g;
+						print $q->p($line);
+					}
+				} else {
+					if ($line =~ m/$regex/is) {
+						$line =~ s/§[a-f0-9]//g;
+						$line =~ s/\[[a-z0-9]+m//g;
+						$line =~ s/</&lt;/g;
+						$line =~ s/>/&gt;/g;
+						print $q->p($line);
+					}
 				}
 			}
 			close FILE;
