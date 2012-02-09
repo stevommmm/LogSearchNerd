@@ -4,7 +4,6 @@ use File::Basename;
 use lib dirname( abs_path $0 );
 # -- Auth --
 use auth;
-use pastezomg;
 my $auth = new auth();
 $auth->construct("./authfile.pl","MyrandomSalt:adjvbevbf8rg3983r");
 # -- Auth End --
@@ -45,14 +44,6 @@ foreach $server (@servers) {
 }
 print "</ul>";
 
-# -- paste
-if (defined $q->param('paste')) {
-	my $paster = new pastezomg();
-	$paster->construct($username);
-	my $pastedata;
-}
-# --
-
 foreach $server (@servers) {
 	print $q->h1("$server\n");
 	print "<a name=\"$server\"></a>";
@@ -68,9 +59,6 @@ foreach $server (@servers) {
 						$line =~ s/</&lt;/g;
 						$line =~ s/>/&gt;/g;
 						print $q->p($line);
-						if (defined $q->param('paste')) {
-							$pastedata .= "$line\n";
-						}
 					}
 				} else {
 					if ($line =~ m/$regex/is) {
@@ -79,9 +67,6 @@ foreach $server (@servers) {
 						$line =~ s/</&lt;/g;
 						$line =~ s/>/&gt;/g;
 						print $q->p($line);
-						if (defined $q->param('paste')) {
-							$pastedata .= "$line\n";
-						}
 					}
 				}
 			}
@@ -89,5 +74,5 @@ foreach $server (@servers) {
 		}
 	}
 }
-print $q->h1($paster->paste($pastedata));
+
 print $q->end_html;
