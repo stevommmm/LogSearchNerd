@@ -21,7 +21,8 @@ die "Param error." unless defined $q->param('day');
 # -- End param check.
 
 my $regex = $q->param('reg');
-my $escape = 'true' if unless $q->param('esc');
+my $escape;
+$escape = 'true' unless $q->param('esc');
 # -- Check if user is authenticated --
 my $username = $q->param('user');
 my $password = $q->param('pass');
