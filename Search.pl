@@ -38,12 +38,22 @@ push(@servers, "pve") if defined $q->param('P');
 my $day_limit = $q->param('day');
 die if $day_limit > 10;
 
+# -- paste stuff
+print '$(\'#pastebutton\').click(function() {
+$.post("pastezomg.pl", { pastedata: "$("#data").text()" },
+   function(data) {
+     alert("Url: " + data);
+   });
+});
+<button id="pastebutton">Paste</button>';
+
+
 print "<ul>";
 foreach $server (@servers) {
 	print "<li><a href=\"#$server\">$server</a></li>";
 }
 print "</ul>";
-
+print "<div id=\"data\">";
 foreach $server (@servers) {
 	print $q->h1("$server\n");
 	print "<a name=\"$server\"></a>";
@@ -74,5 +84,5 @@ foreach $server (@servers) {
 		}
 	}
 }
-
+print "</div>";
 print $q->end_html;
