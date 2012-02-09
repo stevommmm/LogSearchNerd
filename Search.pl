@@ -4,6 +4,7 @@ use File::Basename;
 use lib dirname( abs_path $0 );
 # -- Auth --
 use auth;
+use pastezomg;
 my $auth = new auth();
 $auth->construct("./authfile.pl","MyrandomSalt:adjvbevbf8rg3983r");
 # -- Auth End --
@@ -38,9 +39,19 @@ push(@servers, "pve") if defined $q->param('P');
 my $day_limit = $q->param('day');
 die if $day_limit > 10;
 
+print "<ul>";
 foreach $server (@servers) {
-	print "<a href=\"#$server\">$server</a><br>";
+	print "<li><a href=\"#$server\">$server</a></li>";
 }
+print "</ul>";
+
+# -- paste
+if (defined $q->param('paste')) {
+	my $paster = new pastezomg();
+	$paster->construct($username);
+	my $pastedata;
+}
+# --
 
 foreach $server (@servers) {
 	print $q->h1("$server\n");
@@ -57,6 +68,9 @@ foreach $server (@servers) {
 						$line =~ s/</&lt;/g;
 						$line =~ s/>/&gt;/g;
 						print $q->p($line);
+						if (defined $q->param('paste')) {
+							$pastedata .= "$line\n";
+						}
 					}
 				} else {
 					if ($line =~ m/$regex/is) {
@@ -65,6 +79,9 @@ foreach $server (@servers) {
 						$line =~ s/</&lt;/g;
 						$line =~ s/>/&gt;/g;
 						print $q->p($line);
+						if (defined $q->param('paste')) {
+							$pastedata .= "$line\n";
+						}
 					}
 				}
 			}
@@ -72,5 +89,5 @@ foreach $server (@servers) {
 		}
 	}
 }
-
+print $q->h1($paster->paste($pastedata));
 print $q->end_html;
