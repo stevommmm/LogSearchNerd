@@ -41,9 +41,9 @@ die if $day_limit > 10;
 # -- paste stuff
 print "
 <script type=\"text/javascript\">
-$('#Save').click(function() {
-	var a = $('#data').html();
-	$.post(\"pastezomg.pl\", { pastedata: a },
+$('#pastebutton').click(function() {
+	var a = $('#data').text();
+	$.post(\"./pastezomg.pl\", { pastedata: a },
 		function(data) {
 			alert('Url: ' + data);
 		}
