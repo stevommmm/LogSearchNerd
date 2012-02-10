@@ -39,11 +39,15 @@ my $day_limit = $q->param('day');
 die if $day_limit > 10;
 
 # -- paste stuff
-print "<script type=\"text/javascript\">
-$('#pastebutton').click(function() {
-	$.post('/pastezomg.pl', {'data': $('#data').text()}. function(data){
-		 alert(\"Url: \" + data);  
-	});
+print "
+<script type=\"text/javascript\">
+$('#Save').click(function() {
+	var a = $('#data').html();
+	$.post(\"pastezomg.pl\", { pastedata: a },
+		function(data) {
+			alert('Url: ' + data);
+		}
+	);
 });
 </script>
 <button id=\"pastebutton\">Paste</button>";
