@@ -5,4 +5,4 @@
 # Make sure it is executable and will die if
 # tried to run directly.
 die;
-#_:Myto5Y1tzduao
+#admin_:Myto5Y1tzduao

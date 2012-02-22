@@ -31,15 +31,13 @@ sub checkUser {
 }
 
 sub isInFile {
-        # No encryption implemented, coming soon-ish.
-        ### Do NOT send this live ###
         my ( $self , $username, $password ) = @_;
         open PWFILE, $self->{_AuthFile} or die $!;
 		my $cryptuser = crypt("$username:$password",$self->{_Salt});
         while (my $line = <PWFILE>) {
 			chomp($line);
 			if ($line =~ /^#_:/) {
-				if ("#_:$cryptuser" eq $line) {
+				if ("#$username_:$cryptuser" eq $line) {
 					return TRUE;
 				}
 			}
@@ -47,11 +45,22 @@ sub isInFile {
         return FALSE;
 }
 
+sub removeUser {
+        my ( $self , $username, $password ) = @_;
+        open PWFILE, '>', $self->{_AuthFile} or die $!;
+	my $cryptuser = crypt("$username:$password",$self->{_Salt});
+	while my $line (<PWFILE>) {
+		if ($line ne "#$username_:$cryptuser\n") {
+				print PWFILE $line;
+		}
+	}
+}
+
 sub addNewUser {
         my ( $self , $username, $password ) = @_;
         open PWFILE, '>>', $self->{_AuthFile} or die $!;
 		my $cryptuser = crypt("$username:$password",$self->{_Salt});
-        print PWFILE "#_:$cryptuser\n";
+        print PWFILE "#$username_:$cryptuser\n";
 }
 
 1;
