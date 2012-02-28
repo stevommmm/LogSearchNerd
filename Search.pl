@@ -5,7 +5,7 @@ use lib dirname( abs_path $0 );
 # -- Auth --
 use auth;
 my $auth = new auth();
-$auth->construct("./authfile.pl","MyrandomSalt:adjvbevbf8rg3983r");
+$auth->construct("MyrandomSalt");
 # -- Auth End --
 use CGI;
 $q = CGI->new;

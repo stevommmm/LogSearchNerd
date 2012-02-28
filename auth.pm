@@ -1,66 +1,61 @@
 #!/usr/bin/perl
 package auth;
 use strict;
+use DBI;
 use constant TRUE => 1;
 use constant FALSE => 0;
+
 my $self = undef;
 
 sub new {
     my ($class) = @_;
     my $self = {
-		_AuthFile => undef,
 		_Salt => undef,
+		_db => undef,
     };
     bless $self, $class;
     return $self;
 }
 
 sub construct {
-    my ( $self, $authfile, $salt ) = @_;
-    $self->{_AuthFile} = $authfile if defined($authfile);
+    my ( $self, $salt ) = @_;
 	$self->{_Salt} = $salt if defined($salt);
+	$self->{_db} = DBI->connect("dbi:SQLite:UserAuth.db", "", "", {RaiseError => 1, AutoCommit => 1});
     return;
 }
 
 sub checkUser {
     my ( $self , $username, $password ) = @_;
-		if ($self->isInFile($username,$password)){
+	my $cryptpass = crypt("$password",$self->{_Salt});
+	my $sth = $self->{_db}->prepare(qq{
+    SELECT count(*) AS count FROM auth WHERE user= ? AND pass= ?
+  	});
+  	$sth->execute( $username, $cryptpass);
+	 while (my $data = $sth->fetchrow_hashref) {
+		if ($data->{count} > 0) {
 			return TRUE;
 		}
-		return FALSE;
-}
-
-sub isInFile {
-        my ( $self , $username, $password ) = @_;
-        open PWFILE, $self->{_AuthFile} or die $!;
-		my $cryptuser = crypt("$username:$password",$self->{_Salt});
-        while (my $line = <PWFILE>) {
-			chomp($line);
-			if ($line =~ /^#_:/) {
-				if ("#$username_:$cryptuser" eq $line) {
-					return TRUE;
-				}
-			}
-        }
-        return FALSE;
-}
-
-sub removeUser {
-        my ( $self , $username, $password ) = @_;
-        open PWFILE, '>', $self->{_AuthFile} or die $!;
-	my $cryptuser = crypt("$username:$password",$self->{_Salt});
-	while my $line (<PWFILE>) {
-		if ($line ne "#$username_:$cryptuser\n") {
-				print PWFILE $line;
-		}
 	}
+	return FALSE;
 }
 
 sub addNewUser {
-        my ( $self , $username, $password ) = @_;
-        open PWFILE, '>>', $self->{_AuthFile} or die $!;
-		my $cryptuser = crypt("$username:$password",$self->{_Salt});
-        print PWFILE "#$username_:$cryptuser\n";
+    my ( $self , $username, $password ) = @_;
+	my $cryptpass = crypt("$password",$self->{_Salt});
+
+	$sth = $self->{_db}->prepare(qq{
+    	INSERT INTO auth VALUES (id, user,pass) VALUES (?, ?, ?)
+  	});
+  	$sth->execute(undef, $username, $cryptpass);
+}
+
+sub changeUser {
+	my ( $self , $username, $password ) = @_;
+	my $cryptpass = crypt("$password",$self->{_Salt});
+	$sth = $dbh->prepare(qq{
+    	UPDATE auth SET pass = ? WHERE user = ?
+  	});
+  	$sth->execute($cryptpass, $username);
 }
 
 1;

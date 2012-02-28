@@ -27,4 +27,4 @@ if (!$auth->checkUser($username,$password)) {
 
 my $newusername = $q->param('newuser');
 my $newpassword = $q->param('newpass');
-$auth->addNewUser($newusername,$newpassword);
+$auth->changeUser($newusername,$newpassword);
