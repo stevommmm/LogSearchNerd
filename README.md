@@ -1,1 +1,14 @@
-### A simple log search ###### Features: ####* User authentication.* Regex searching.* Easy user creation.* Multiple server searching.#### Installation: ####Download all needed files. This includes:* Search.pl* auth.pm* auth.html (or index.html)* authfile.plWith just these files the app is fully working.Simply sign in with the U:admin P:test#### To add new users: ####Download:* newUser.pl* newUser.htmlAnd using the default user and password create a new user account.Deleting the first line after line 7 of authfile.pl    die;to remove the admin:test user.
+LogSearchNerd
+-------------
+
+A log searching method written for the [nerd.nu](http://nerd.nu) Minecraft servers.
+
+It provides the ability to search the output logs, which are stored in a gzipped format but are otherwise plain text.
+
+A sqlite database is used for user authentication, it can be created via the MakeDB.pl script. Which will also insert the account admin:admin with a random password salt in the crypt function,  *I recommend changing this*
+
+From there running GitGet.sh should download all the resources needed from this GitHub repo. Making sure that you are up to day. 
+
+**Be mindful of updating your password salt when you overwride on update**
+
+I do not intend to support this anywhere but on the nerd.nu web server, it was not indented to be modular or easy to install on another server.
